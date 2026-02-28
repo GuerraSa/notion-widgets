@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  /* 1. Main Background and Font */
+  body { 
+    /* Change 'transparent' to a color like '#F7F6F3' if you want a background */
+    background-color: transparent; 
+    /* Change the font family here if you want a specific Notion font */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
+    color: #37352f; 
+    display: flex; justify-content: center; align-items: center; 
+    height: 100vh; margin: 0; overflow: hidden;
+  }
+
+  /* 2. The Box Around the Date */
+  .date-container { 
+    text-align: center; 
+    padding: 20px 40px; 
+    border-radius: 10px; 
+    border: 1px solid #e9e9e7; /* Border color */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Slight shadow */
+  }
+
+  /* 3. Text Styling */
+  #day { font-size: 1.5rem; font-weight: 500; color: #787774; text-transform: uppercase; letter-spacing: 2px; }
+  #date { font-size: 4rem; font-weight: 700; margin: 10px 0; }
+  #month-year { font-size: 1.2rem; font-weight: 500; }
+  
+  /* 4. Automatic Dark Mode Support */
+  @media (prefers-color-scheme: dark) {
+    body { color: rgba(255, 255, 255, 0.9); }
+    .date-container { border-color: #373737; }
+    #day { color: #9b9a97; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="date-container">
+    <div id="day"></div>
+    <div id="date"></div>
+    <div id="month-year"></div>
+  </div>
+
+  <script>
+    function updateDate() {
+      const d = new Date();
+      // 'en-US' formats the date in English. Change it (e.g., 'fr-FR', 'ja-JP') for other languages.
+      document.getElementById("day").innerText = d.toLocaleDateString('en-US', { weekday: 'long' });
+      document.getElementById("date").innerText = d.getDate();
+      document.getElementById("month-year").innerText = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+    updateDate();
+  </script>
+
+</body>
+</html>
