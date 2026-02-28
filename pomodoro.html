@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notion Pomodoro</title>
+<style>
+  /* Base Styling to match Notion */
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: transparent; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #37352f;
+    overflow: hidden;
+  }
+
+  /* The Container Box */
+  .container {
+    text-align: center;
+    padding: 20px 30px;
+    border: 1px solid #e9e9e7;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  }
+
+  /* Timer Text */
+  #timer {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-variant-numeric: tabular-nums; /* Keeps numbers perfectly aligned as they tick */
+  }
+
+  /* Button Styling */
+  button {
+    background-color: #f1f1ef;
+    color: #37352f;
+    border: 1px solid rgba(15, 15, 15, 0.1);
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0 5px;
+    font-family: inherit;
+    transition: background 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #e9e9e7;
+  }
+
+  /* Automatic Dark Mode */
+  @media (prefers-color-scheme: dark) {
+    body { color: rgba(255, 255, 255, 0.9); }
+    .container { border-color: #373737; }
+    button {
+      background-color: #2f2f2f;
+      color: rgba(255, 255, 255, 0.9);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    button:hover { background-color: #3f3f3f; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="timer">25:00</div>
+    <div>
+      <button id="startBtn" onclick="toggleTimer()">Start</button>
+      <button onclick="resetTimer()">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    let timeLeft = 1500; // 25 minutes in seconds
+    let timerInterval;
+    let isRunning = false;
+
+    const timerDisplay = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+
+    function updateDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      // Formats the numbers to always show two digits (e.g., 09:05 instead of 9:5)
+      timerDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+      if (isRunning) {
+        // Pause the timer
+        clearInterval(timerInterval);
+        startBtn.innerText = "Start";
+        isRunning = false;
+      } else {
+        // Start the timer
+        timerInterval = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            updateDisplay();
+          } else {
+            // Timer hits zero
+            clearInterval(timerInterval);
+            startBtn.innerText = "Start";
+            isRunning = false;
+            alert("Pomodoro complete! Great focus."); 
+          }
+        }, 1000);
+        startBtn.innerText = "Pause";
+        isRunning = true;
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timeLeft = 1500; // Reset back to 25 minutes
+      updateDisplay();
+      startBtn.innerText = "Start";
+      isRunning = false;
+    }
+
+    // Initialize the display when the widget loads
+    updateDisplay();
+  </script>
+
+</body>
+</html>
